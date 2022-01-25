@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sele4-base">
+    <CLASSES>
+      <root url="file://$USER_HOME$/webui/sele4-base" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$USER_HOME$/webui/sele4-base/src/test/java" />
+    </SOURCES>
+  </library>
+</component>

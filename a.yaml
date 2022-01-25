@@ -1,0 +1,6 @@
+- env:
+    test1
+    test2
+
+- test1:
+    - phone: 12334000
