@@ -1,0 +1,7 @@
+env: dev
+method:
+  #方法名
+  mineSelf:
+    steps:
+      - click: []
+      - sendKeys: []
