@@ -1,6 +1,9 @@
-- env:
-    test1
-    test2
-
-- test1:
-    - phone: 12334000
+datas:
+    - AData
+    - AData
+    - AData
+    - AData
+    - a: 1
+      b: -100
+      result: 0
+      message: 无效边界值相加【1,-99】

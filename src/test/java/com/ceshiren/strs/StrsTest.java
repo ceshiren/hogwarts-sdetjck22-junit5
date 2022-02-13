@@ -38,6 +38,11 @@ public class StrsTest extends BaseTest {
     void strs2Test(){
 //        yaml
         resultStr = calculator.concatStr("This","is", "Junit5");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         assertEquals("This is Junit5",resultStr);
     }
     @Test
@@ -45,5 +50,10 @@ public class StrsTest extends BaseTest {
     void strs3Test(){
         resultStr = calculator.concatStr("这是", "北京");
         assertEquals("这是 北京",resultStr);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

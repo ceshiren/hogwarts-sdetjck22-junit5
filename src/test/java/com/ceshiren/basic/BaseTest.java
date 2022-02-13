@@ -46,12 +46,21 @@ public class BaseTest {
     //void
     //在每个测试方法之后运行  有多少个测试方法就运行多少次
     @AfterEach
-    void afterEach(TestInfo testInfo){
+    void afterEach(TestInfo testInfo,TestReporter testReporter){
+        Optional<Method> testMethod = testInfo.getTestMethod();
+        System.out.println("方法名："+testMethod.map(Method::getName));
+        //空指针异常Null
+        String str = testMethod.map(Method::getName).filter(s -> s.startsWith("str"))
+                .ofNullable(resultStr)
+                .orElseGet(() -> String.valueOf(result));
+        /**
+         * if(s.startsWith("str")) resultStr
+         * else    result
+         */
 
-        testInfo.getTags();//包括测试方法类的tag标签的所有内容都会拿到
         //有一个顺序，先加载类tag的标签，再加载方法上的tag标签，最后是一个数组的内容
         logger.info("BaseTest--afterEach");
-        logger.info("计算结果：{}",result);
+        logger.info("计算结果：{}",str);
 
         //resultStr
         //销毁ID

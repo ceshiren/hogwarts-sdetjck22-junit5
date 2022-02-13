@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-@DisplayName(" ")
+@DisplayName(" sum test")
 public class SumTest extends BaseTest {
     //可以有多个
     //void修饰
@@ -46,6 +46,11 @@ public class SumTest extends BaseTest {
         // expected:期望值，我们自己定义,  actual：实际值，测试代码运行的结果,
         // message：断言失败后显示的错误原因
         assertEquals(re,result,"2个数相加的结果不正确");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     static Stream<Arguments> sum1Test(){
@@ -76,6 +81,11 @@ public class SumTest extends BaseTest {
         // expected:期望值，我们自己定义,  actual：实际值，测试代码运行的结果,
         // message：断言失败后显示的错误原因
         assertEquals(11,result,"3个数相加的结果不正确");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     @DisplayName("2个数边界值的相加")
     @Test

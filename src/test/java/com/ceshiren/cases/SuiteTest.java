@@ -14,14 +14,9 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @Suite
 @SelectClasses({
         com.ceshiren.nums.SumTest.class,
-        com.ceshiren.strs.StrsTest.class
+        com.ceshiren.strs.StrsTest.class,
+        com.ceshiren.dynamic.ShellTest.class
 })
 @SuiteDisplayName("加法、字符串拼接")
-//测试用例的时候，区分环境会比较多
-//test1,
-@IncludeTags({
-        "en",
-        "true"
-})
 public class SuiteTest {
 }

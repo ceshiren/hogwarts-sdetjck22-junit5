@@ -24,6 +24,11 @@
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
         <slf4j.version>1.7.32</slf4j.version>
         <logback.version>1.2.10</logback.version>
+        <!--对应解析-->
+        <jackson.version>2.13.1</jackson.version>
+        <!--allure报告-->
+        <allure.version>2.16.1</allure.version>
+        <aspectj.version>1.9.5</aspectj.version>
     </properties>
 
     <!--    物料清单 (BOM)-->
@@ -76,6 +81,23 @@
             <artifactId>junit-vintage-engine</artifactId>
             <version>${junit.jupiter.version}</version>
         </dependency>
+        <!--        yaml文件解析-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <!--        allure报告-->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-junit5</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
     </dependencies>
 
 
@@ -95,6 +117,10 @@
                     <!--                        <exclude>com/testeru/suites/cases2/*Test.class</exclude>-->
                     <!--                        <exclude>*Suite*Test</exclude>-->
                     <!--                    </excludes>-->
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+
                 </configuration>
                 <dependencies>
                     <dependency>

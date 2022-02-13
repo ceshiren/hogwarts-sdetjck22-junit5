@@ -1,0 +1,12 @@
+env: dev
+method:
+  go:
+    steps:
+      - click: []
+      - sendKeys: []
+  go1:
+    steps:
+      - click: []
+      - sendKeys: []
+      - getText: []
+        swipe:

@@ -5,8 +5,12 @@
 
 package com.ceshiren;
 
+import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import org.slf4j.Logger;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.IntStream;
@@ -17,6 +21,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class Calculator {
     //获得具有所需名称的记录器
     static final Logger logger = getLogger(lookup().lookupClass());
+
+    private static ThreadLocal<String> threadLocal = new ThreadLocal<String>();
 
     public static int result = 0;
 
@@ -51,14 +57,15 @@ public class Calculator {
     public void initId(){
         id = UUID.randomUUID().toString();
         logger.info("生成ID：{} 并绑定", id);
-
+        threadLocal.set(id);
     }
     public void destroyId() {
-        if (id == null) {
+       /* if (id == null) {
             throw new IllegalArgumentException(name + " 没有初始化对应ID");
         }
         logger.info("ID: {} 释放", id);
-        id = null;
+        id = null;*/
+        threadLocal.remove();
     }
 
 
@@ -68,18 +75,30 @@ public class Calculator {
 
 
     //连续添加
+    @Step("连续加 {numbers}")
     public int sum(int... numbers) {
+            logger.info("sum...");
 
-        //[-99,99]
-        if(Arrays.stream(numbers).anyMatch(u -> u > 99) | Arrays.stream(numbers).anyMatch(u -> u < -99)){
-            logger.warn("请输入范围内的整数");
-            throw new IllegalArgumentException("请输入范围内的整数！");
+            //[-99,99]
+            if(Arrays.stream(numbers).anyMatch(u -> u > 99) | Arrays.stream(numbers).anyMatch(u -> u < -99)){
+                logger.warn("请输入范围内的整数");
+                throw new IllegalArgumentException("请输入范围内的整数！");
 
-        }else {
-            //a+b+c+d
-            //numbers[0]+numbers[1]+...numbers[index-1]
-            return IntStream.of(numbers).sum();
-        }
+            }else {
+                //a+b+c+d
+                //numbers[0]+numbers[1]+...numbers[index-1]
+                try {
+                    Allure.addAttachment("动态上传图片", "image/jpeg",new FileInputStream("./桌面背景.jpeg"),".jpeg");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                return IntStream.of(numbers).sum();
+            }
+
+
+
+
 
     }
 
@@ -98,7 +117,9 @@ public class Calculator {
         }
     }
 
+    @Step
     public int subtract(int x,int y) {
+        logger.info("sub...");
         //[-99,99]
         if(x>99 | x<-99 | y>99 | y<-99){
             logger.warn("请输入范围内的整数");
@@ -107,6 +128,7 @@ public class Calculator {
             return x-y;
 
         }
+
     }
 
 
