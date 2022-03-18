@@ -24,8 +24,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static java.lang.invoke.MethodHandles.lookup;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -34,37 +33,38 @@ public class AddDynamicTest {
     final Logger logger = getLogger(lookup().lookupClass());
 
 
-//课下参考代码发给大家
-//    @TestFactory
-//    Stream<DynamicTest> addTest(){
-//        calculator = new Calculator("动态测试add用例");
-//        logger.info("开始动态测试生成");
-//        List<DynamicTest> dynamicTestList = new ArrayList<>();
-//        //yaml文件解析
-//        Add1 add1Yaml = getAdd1Yaml();
-//        Stream<AData> errorStream = add1Yaml.getDatas().stream().filter(aData -> aData.getMessage().startsWith("无效"));
-//
-//        errorStream.map(aData -> {
-//            return dynamicTestList.add(dynamicTest((aData.getA()) + "+" + (aData.getB()),
-//                    () -> {
-//                        Exception e = assertThrows(IllegalArgumentException.class, () -> calculator.sum(aData.getA(), aData.getB()));
-//                        //请输入范围内的整数！  e.getMessage()
-//                        assertTrue(e.getMessage().contains("输入范围内的整数"));
-//                    }
-//            ));
-//                });
+    @TestFactory
+    Stream<Object> addTest(){
+        calculator = new Calculator("动态测试add用例");
+        logger.info("开始动态测试生成");
+        List<DynamicTest> dynamicTestList = new ArrayList<>();
 
-        /*Stream<DynamicTest> errStream = errorStream.map(aData -> {
-            dynamicTestList.add(
-                    dynamicTest((aData.getA()) + "+" + (aData.getB()),
-                            () -> {
-                                Exception e = assertThrows(IllegalArgumentException.class, () -> calculator.sum(aData.getA(), aData.getB()));
-                                //请输入范围内的整数！  e.getMessage()
-                                assertTrue(e.getMessage().contains("输入范围内的整数"));
-                            }));
-        });*/
-//        return Stream.concat();
-//    }
+        //yaml文件解析
+        Add1 add1Yaml = getAdd1Yaml();
+        Stream<AData> errorStream = add1Yaml.getDatas().stream().filter(aData -> aData.getMessage().startsWith("无效"));
+        Stream<DynamicTest> dynamicTestStream = errorStream.map(m -> dynamicTest(m.getMessage(), () -> {
+
+            //超过边界值的加法运算
+            Exception illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> calculator.sum(m.getA(), m.getB()));
+            // expected:期望值,  actual:运算的实际值
+            assertTrue(illegalArgumentException.getMessage().contains("请输入范围内的整数"));
+        }));
+
+        Stream<AData> right = add1Yaml.getDatas().
+                stream().filter(m -> m.getMessage().startsWith("有效"));
+        Stream<DynamicTest> dynamicTestStream1 = right.map(data -> dynamicTest(data.getMessage(), () -> {
+
+            //加法运算
+            double sum = calculator.sum(data.getA(), data.getB());
+            logger.info("Addition result：{}",sum);
+            // expected:期望值,  actual:运算的实际值
+            assertEquals(data.getResult(), sum);
+        }));
+        return Stream.concat(dynamicTestStream,
+                dynamicTestStream1);
+    }
+
+
 
 
 
